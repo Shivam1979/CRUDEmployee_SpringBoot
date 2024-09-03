@@ -22,7 +22,6 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long empId;
 
-
 //    @NotNull(message = "Name should Not be Null")
     @NotNull
     private String name;
