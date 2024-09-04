@@ -2,32 +2,55 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Employee;
 import com.example.demo.exception.EmployeeException;
+import com.example.demo.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 public class EmployeeServiceImpl implements EmployeeService{
+
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
     @Override
     public Employee saveEmployee(Employee employee) throws EmployeeException {
-        return null;
+        if (employee == null) {
+            throw new EmployeeException("Employee data is missing");
+        } else employeeRepository.save(employee);
+        return employee;
     }
 
     @Override
     public Employee getEmployeeById(Integer id) throws EmployeeException {
-        return null;
+        Optional <Employee> emp = employeeRepository.findById(id);
+        return emp.orElseThrow(() -> new EmployeeException("Employee not found"));
     }
 
     @Override
-    public Employee updateEmployee(Employee employeee) throws EmployeeException {
-        return null;
+    public Employee updateEmployee(Employee employee) throws EmployeeException {
+        Optional<Employee> opt = employeeRepository.findById(Math.toIntExact(employee.getEmpId()));
+        if (opt.isPresent()){
+            employeeRepository.save(employee);
+        }else throw new EmployeeException("Customer not found");
+        return employee;
     }
 
     @Override
     public Employee deleteEmployeeById(Integer empId) throws EmployeeException {
-        return null;
+        Optional<Employee> opt =  employeeRepository.findById(empId);
+        if (opt.isPresent()){
+            employeeRepository.delete(opt.get());
+        }else throw new EmployeeException("Customer not found");
+        return opt.get();
     }
 
     @Override
     public List<Employee> getAllEmployee() throws EmployeeException {
-        return List.of();
+       List<Employee>  list = employeeRepository.findAll();
+       if (list.size()==0){
+           throw new EmployeeException("No any Student found");
+       }
+       return list;
     }
 }
