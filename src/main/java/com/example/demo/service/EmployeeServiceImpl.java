@@ -3,11 +3,14 @@ package com.example.demo.service;
 import com.example.demo.entity.Employee;
 import com.example.demo.exception.EmployeeException;
 import com.example.demo.repository.EmployeeRepository;
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class EmployeeServiceImpl implements EmployeeService{
 
 
